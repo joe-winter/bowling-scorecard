@@ -15,11 +15,11 @@ describe("generate board", () => {
   it("given no name, no frames and no score", () => {
     // --- trying to mock the class ---
     // const mockFrameLineGenerator = new FrameLineGenerator()
-    // mockFrameLineGenerator.generate.mockImplementation(() => "   |   |   |   |   |   |   |   |   |     |")
+    // mockFrameLineGenerator.generate.mockImplementation(() => [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "])
     // --- mocking a specific method of a class ---
     const mockGenerate = jest
     .spyOn(FrameLineGenerator.prototype, "generate")
-    .mockImplementation(() => "   |   |   |   |   |   |   |   |   |     |")
+    .mockImplementation(() => [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "])
     const generateBoard = new BoardGenerator();
     const frames = [];
     const score = [];
@@ -37,7 +37,7 @@ describe("generate board", () => {
   it("given a name Joe, no frames and no score", () => {
     const mockGenerate = jest
     .spyOn(FrameLineGenerator.prototype, "generate")
-    .mockImplementation(() => "   |   |   |   |   |   |   |   |   |     |")
+    .mockImplementation(() => [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "])
     const generateBoard = new BoardGenerator();
     generateBoard.giveName("Joe");
     const frames = [];
@@ -56,7 +56,7 @@ describe("generate board", () => {
   it("given Averylongname, emptyBoard with create an empty board with a name", () => {
     const mockGenerate = jest
     .spyOn(FrameLineGenerator.prototype, "generate")
-    .mockImplementation(() => "   |   |   |   |   |   |   |   |   |     |")
+    .mockImplementation(() => [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "])
     const generateBoard = new BoardGenerator();
     generateBoard.giveName("Averylongname");
     const frames = [];
@@ -91,7 +91,7 @@ describe("generate board", () => {
   it("given frames of (3,4) and a score of [7]", () => {
     const mockGenerate = jest
     .spyOn(FrameLineGenerator.prototype, "generate")
-    .mockImplementation(() => "3 4|   |   |   |   |   |   |   |   |     |")
+    .mockImplementation(() => [3,4," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ",])
     const frames = [frame(3, 4)];
     const score = [7];
     const generateBoard = new BoardGenerator();
@@ -109,7 +109,7 @@ describe("generate board", () => {
   it("given frames of (3,4)(2,4)(5,3) show board returns board", () => {
     const mockGenerate = jest
     .spyOn(FrameLineGenerator.prototype, "generate")
-    .mockImplementation(() => "3 4|2 4|5 3|   |   |   |   |   |   |     |")
+    .mockImplementation(() => [3,4,2,4,5,3," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ",])
     const frames = [frame(3, 4), frame(2, 4), frame(5, 3)];
     const score = [7, 12, 20];
     const generateBoard = new BoardGenerator();
@@ -127,7 +127,7 @@ describe("generate board", () => {
   it("given a perfect game", () => {
     const mockGenerate = jest
     .spyOn(FrameLineGenerator.prototype, "generate")
-    .mockImplementation(() => "X  |X  |X  |X  |X  |X  |X  |X  |X  |X X X|")
+    .mockImplementation(() => ["X"," ","X"," ","X"," ","X"," ","X"," ","X"," ","X"," ","X"," ","X"," ","X","X","X",])
     const frame1 = frame(10);
     frame1.isStrike.mockReturnValue(true);
     const frame2 = frame(10, 10, 10);
@@ -144,7 +144,7 @@ describe("generate board", () => {
       "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       "|          |X  |X  |X  |X  |X  |X  |X  |X  |X  |X X X|     |",
       "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-      "|          | 30| 60| 90|120|150|180|210|240|270|  300|     |",
+      "|          | 30| 60| 90|120|150|180|210|240|270| 300 |     |",
       "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
     ].join("\n");
     expect(generateBoard.getBoard(frames, score)).toEqual(board);
@@ -152,7 +152,7 @@ describe("generate board", () => {
   it("given a game of spares", () => {
     const mockGenerate = jest
     .spyOn(FrameLineGenerator.prototype, "generate")
-    .mockImplementation(() => "5 /|5 /|5 /|5 /|5 /|5 /|5 /|5 /|5 /|5 / 5|")
+    .mockImplementation(() => [5,"/",5,"/",5,"/",5,"/",5,"/",5,"/",5,"/",5,"/",5,"/",5,"/",5,])
     const frame1 = frame(5,5)
     const frame2 = frame(5,5,5)
     frame1.isSpare.mockReturnValue(true)
@@ -168,9 +168,64 @@ describe("generate board", () => {
       "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       "|          |5 /|5 /|5 /|5 /|5 /|5 /|5 /|5 /|5 /|5 / 5|     |",
       "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-      "|          | 15| 30| 45| 60| 75| 90|105|120|135|  150|     |",
+      "|          | 15| 30| 45| 60| 75| 90|105|120|135| 150 |     |",
       "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
     ].join("\n");
     expect(generateBoard.getBoard(frames, score)).toEqual(board);
+  });
+  it("given a maximum score, it is shown on the board", () => {
+    const mockGenerate = jest
+    .spyOn(FrameLineGenerator.prototype, "generate")
+    .mockImplementation(() => [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "])
+    const generateBoard = new BoardGenerator();
+    const frames = [];
+    const score = [];
+    const board = [
+      "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+      "|  Frame   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10  | Max |",
+      "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+      "|          |   |   |   |   |   |   |   |   |   |     |     |",
+      "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
+      "|          |   |   |   |   |   |   |   |   |   |     | 300 |",
+      "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+    ].join("\n");
+    expect(generateBoard.getBoard(frames, score, 300)).toEqual(board);
+  });
+
+  it("given a 2 digit maximum score, it is shown on the board", () => {
+    const mockGenerate = jest
+    .spyOn(FrameLineGenerator.prototype, "generate")
+    .mockImplementation(() => [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "])
+    const generateBoard = new BoardGenerator();
+    const frames = [];
+    const score = [];
+    const board = [
+      "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+      "|  Frame   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10  | Max |",
+      "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+      "|          |   |   |   |   |   |   |   |   |   |     |     |",
+      "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
+      "|          |   |   |   |   |   |   |   |   |   |     |  30 |",
+      "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+    ].join("\n");
+    expect(generateBoard.getBoard(frames, score, 30)).toEqual(board);
+  });
+  it("given a 1 digit maximum score, it is shown on the board", () => {
+    const mockGenerate = jest
+    .spyOn(FrameLineGenerator.prototype, "generate")
+    .mockImplementation(() => [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "])
+    const generateBoard = new BoardGenerator();
+    const frames = [];
+    const score = [];
+    const board = [
+      "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+      "|  Frame   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10  | Max |",
+      "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+      "|          |   |   |   |   |   |   |   |   |   |     |     |",
+      "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
+      "|          |   |   |   |   |   |   |   |   |   |     |   0 |",
+      "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+    ].join("\n");
+    expect(generateBoard.getBoard(frames, score, 0)).toEqual(board);
   });
 });

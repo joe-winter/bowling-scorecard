@@ -1,7 +1,6 @@
 const UserInterface = require("../src/userInterface");
 const BoardGenerator = require("../src/boardGenerator");
 const Scorecard = require("../src/scorecard")
-
 const frame = (throw1, throw2 = 0, throw3 = 0) => {
   return {
     throw1: throw1,
@@ -14,10 +13,12 @@ const frame = (throw1, throw2 = 0, throw3 = 0) => {
 }
 
 describe("userinterface", () => {
-  mockreadlineAysnc = jest.fn();
+  const mockreadlineAysnc = jest.fn();
   const logSpy = jest.spyOn(global.console, "log");
   beforeEach(() => {
     jest.clearAllMocks();
+    mockreadlineAysnc.mockResolvedValue("0");
+
   });
   it("should give the user interface for the second frame once the first has finished", async () => {
     mockreadlineAysnc.mockResolvedValueOnce("5");
@@ -37,7 +38,7 @@ describe("userinterface", () => {
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
         "|          |   |   |   |   |   |   |   |   |   |     |     |",
         "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-        "|          |   |   |   |   |   |   |   |   |   |     |     |",
+        "|          |   |   |   |   |   |   |   |   |   |     | 300 |",
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       ].join("\n")
     );
@@ -54,7 +55,7 @@ describe("userinterface", () => {
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
         "|          |5 3|   |   |   |   |   |   |   |   |     |     |",
         "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-        "|          |  8|   |   |   |   |   |   |   |   |     |     |",
+        "|          |  8|   |   |   |   |   |   |   |   |     | 278 |",
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       ].join("\n")
     );
@@ -84,7 +85,7 @@ describe("userinterface", () => {
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
         "|          |   |   |   |   |   |   |   |   |   |     |     |",
         "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-        "|          |   |   |   |   |   |   |   |   |   |     |     |",
+        "|          |   |   |   |   |   |   |   |   |   |     | 300 |",
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       ].join("\n")
     );
@@ -114,7 +115,7 @@ describe("userinterface", () => {
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
         "|          |X  |X  |X  |X  |X  |X  |X  |X  |X  |     |     |",
         "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-        "|          | 30| 60| 90|120|150|180|210|230|240|     |     |",
+        "|          | 30| 60| 90|120|150|180|210|230|240|     | 300 |",
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       ].join("\n")
     );
@@ -133,7 +134,7 @@ describe("userinterface", () => {
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
         "|          |X  |X  |X  |X  |X  |X  |X  |X  |X  |X X X|     |",
         "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-        "|          | 30| 60| 90|120|150|180|210|240|270|  300|     |",
+        "|          | 30| 60| 90|120|150|180|210|240|270| 300 | 300 |",
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       ].join("\n")
     );
@@ -160,7 +161,7 @@ describe("userinterface", () => {
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
         "|          |X  |X  |X  |X  |X  |X  |X  |X  |X  |     |     |",
         "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-        "|          | 30| 60| 90|120|150|180|210|230|240|     |     |",
+        "|          | 30| 60| 90|120|150|180|210|230|240|     | 300 |",
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       ].join("\n")
     );
@@ -179,7 +180,7 @@ describe("userinterface", () => {
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
         "|          |X  |X  |X  |X  |X  |X  |X  |X  |X  |7 / 5|     |",
         "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-        "|          | 30| 60| 90|120|150|180|210|237|257|  272|     |",
+        "|          | 30| 60| 90|120|150|180|210|237|257| 272 | 272 |",
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       ].join("\n")
     );
@@ -205,7 +206,7 @@ describe("userinterface", () => {
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
         "|          |X  |X  |X  |X  |X  |X  |X  |X  |X  |     |     |",
         "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-        "|          | 30| 60| 90|120|150|180|210|230|240|     |     |",
+        "|          | 30| 60| 90|120|150|180|210|230|240|     | 300 |",
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       ].join("\n")
     );
@@ -222,11 +223,67 @@ describe("userinterface", () => {
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
         "|          |X  |X  |X  |X  |X  |X  |X  |X  |X  |5 2  |     |",
         "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
-        "|          | 30| 60| 90|120|150|180|210|235|252|  259|     |",
+        "|          | 30| 60| 90|120|150|180|210|235|252| 259 | 259 |",
         "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
       ].join("\n")
     );
   })
+  it("given an inputvalidator func the user must keep on inputing until valid", async () => {
+    mockreadlineAysnc.mockResolvedValueOnce("X"); // frame 1, throw 1 invalid
+    mockreadlineAysnc.mockResolvedValueOnce("5"); // frame 1, throw 1 valid
+    mockreadlineAysnc.mockResolvedValueOnce("6"); // frame 1, throw 2 invalid
+    mockreadlineAysnc.mockResolvedValueOnce("3"); // frame 1. throw 2 valid
+    mockreadlineAysnc.mockResolvedValueOnce("1");
+    mockreadlineAysnc.mockResolvedValueOnce("4");
+    const scorecard = new Scorecard()
+    const boardGenerator = new BoardGenerator()
+    const userInterface = new UserInterface(mockreadlineAysnc, scorecard, boardGenerator);
+    await userInterface.run();
+    expect(logSpy).toHaveBeenNthCalledWith(1, "Frame 1:");
+    expect(logSpy).toHaveBeenNthCalledWith(
+      2,
+      [
+        "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+        "|  Frame   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10  | Max |",
+        "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+        "|          |   |   |   |   |   |   |   |   |   |     |     |",
+        "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
+        "|          |   |   |   |   |   |   |   |   |   |     | 300 |",
+        "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+      ].join("\n")
+    );
+    expect(logSpy).toHaveBeenNthCalledWith(3,"Frame 1 - Possible Throw: 0,1,2,3,4,5,6,7,8,9,10");
+    expect(mockreadlineAysnc).toHaveBeenNthCalledWith(1, "First Throw: ");
+    expect(logSpy).toHaveBeenNthCalledWith(4,"Invalid throw, try again!");
+    expect(mockreadlineAysnc).toHaveBeenNthCalledWith(2, "First Throw: ");
+    expect(logSpy).toHaveBeenNthCalledWith(5,"Frame 1 - Possible Throw: 0,1,2,3,4,5");
+    expect(mockreadlineAysnc).toHaveBeenNthCalledWith(3, "Second Throw: ");
+    expect(logSpy).toHaveBeenNthCalledWith(6,"Invalid throw, try again!");
+    expect(mockreadlineAysnc).toHaveBeenNthCalledWith(4, "Second Throw: ");
+    expect(logSpy).toHaveBeenNthCalledWith(7, "Frame 2:");
+    expect(logSpy).toHaveBeenNthCalledWith(
+      8,
+      [
+        "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+        "|  Frame   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10  | Max |",
+        "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+        "|          |5 3|   |   |   |   |   |   |   |   |     |     |",
+        "|  Player  +---+---+---+---+---+---+---+---+---+-----+-----+",
+        "|          |  8|   |   |   |   |   |   |   |   |     | 278 |",
+        "+----------+---+---+---+---+---+---+---+---+---+-----+-----+",
+      ].join("\n")
+    );
+    expect(logSpy).toHaveBeenNthCalledWith(
+      9,
+      "Frame 2 - Possible Throw: 0,1,2,3,4,5,6,7,8,9,10"
+    );
+    expect(mockreadlineAysnc).toHaveBeenNthCalledWith(5, "First Throw: ");
+    expect(logSpy).toHaveBeenNthCalledWith(
+    10,
+      "Frame 2 - Possible Throw: 0,1,2,3,4,5,6,7,8,9"
+    );
+    expect(mockreadlineAysnc).toHaveBeenNthCalledWith(6, "Second Throw: ");
+  });
 });
     
 

@@ -1,4 +1,15 @@
 const ScoreCalculator = require("../src/scoreCalculator");
+const frame = (throw1, throw2 = 0, throw3 = 0) => {
+  return {
+    throw1: throw1,
+    throw2: throw2,
+    throw3: throw3,
+    isSpare: jest.fn().mockReturnValue(false),
+    isStrike: jest.fn().mockReturnValue(false),
+    total: jest.fn(),
+  };
+};
+
 
 describe("ScoreCalculator", () => {
   beforeAll(() => {});
@@ -138,14 +149,5 @@ describe("ScoreCalculator", () => {
     frames = [frame1,frame2,frame3,frame2,frame1,frame2,frame2,frame4,frame2,frame5]
     expect(scoreCalculator.calculateScore(frames)).toEqual([20,39,48,68,88,115,134,143,168,186])
   })
-  const frame = (throw1, throw2 = 0, throw3 = 0) => {
-    return {
-      throw1: throw1,
-      throw2: throw2,
-      throw3: throw3,
-      isSpare: jest.fn().mockReturnValue(false),
-      isStrike: jest.fn().mockReturnValue(false),
-      total: jest.fn(),
-    };
-  };
+
 });
