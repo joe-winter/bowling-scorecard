@@ -12,12 +12,18 @@ const frame = (throw1, throw2 = 0, throw3 = 0) => {
   };
 }
 
+
+
 describe("userinterface", () => {
   const mockreadlineAysnc = jest.fn();
   const logSpy = jest.spyOn(global.console, "log");
+  let scorecard;
+  let boardGenerator;
   beforeEach(() => {
     jest.clearAllMocks();
     mockreadlineAysnc.mockResolvedValue("0");
+    scorecard = new Scorecard()
+    boardGenerator = new BoardGenerator()
 
   });
   it("should give the user interface for the second frame once the first has finished", async () => {
@@ -25,8 +31,8 @@ describe("userinterface", () => {
     mockreadlineAysnc.mockResolvedValueOnce("3");
     mockreadlineAysnc.mockResolvedValueOnce("1");
     mockreadlineAysnc.mockResolvedValueOnce("4");
-    const scorecard = new Scorecard()
-    const boardGenerator = new BoardGenerator()
+  
+    
     const userInterface = new UserInterface(mockreadlineAysnc, scorecard, boardGenerator);
     await userInterface.run();
     expect(logSpy).toHaveBeenNthCalledWith(1, "Frame 1:");
@@ -72,8 +78,6 @@ describe("userinterface", () => {
   });
   it("given a player gets a strike, the second throw isnt asked", async () => {
     mockreadlineAysnc.mockResolvedValueOnce("10");
-    const scorecard = new Scorecard()
-    const boardGenerator = new BoardGenerator()
     const userInterface = new UserInterface(mockreadlineAysnc, scorecard, boardGenerator);
     await userInterface.run();
     expect(logSpy).toHaveBeenNthCalledWith(1, "Frame 1:");
@@ -97,13 +101,11 @@ describe("userinterface", () => {
     mockreadlineAysnc.mockResolvedValueOnce("10");
     mockreadlineAysnc.mockResolvedValueOnce("10");
     mockreadlineAysnc.mockResolvedValueOnce("10");
-    const scorecard = new Scorecard()
     const frame1 = frame(10)
     frame1.isStrike.mockReturnValue(true)
     frame1.total.mockReturnValue(10)
     scorecard.frames = [frame1,frame1,frame1,frame1,frame1,frame1,frame1,frame1,frame1]
     scorecard.score = [30,60,90,120,150,180,210,230,240]
-    const boardGenerator = new BoardGenerator()
     const userInterface = new UserInterface(mockreadlineAysnc, scorecard, boardGenerator);
     await userInterface.run();
     expect(logSpy).toHaveBeenNthCalledWith(1, "Frame 10:");
@@ -143,13 +145,11 @@ describe("userinterface", () => {
     mockreadlineAysnc.mockResolvedValueOnce("7");
     mockreadlineAysnc.mockResolvedValueOnce("3");
     mockreadlineAysnc.mockResolvedValueOnce("5");
-    const scorecard = new Scorecard()
     const frame1 = frame(10)
     frame1.isStrike.mockReturnValue(true)
     frame1.total.mockReturnValue(10)
     scorecard.frames = [frame1,frame1,frame1,frame1,frame1,frame1,frame1,frame1,frame1]
     scorecard.score = [30,60,90,120,150,180,210,230,240]
-    const boardGenerator = new BoardGenerator()
     const userInterface = new UserInterface(mockreadlineAysnc, scorecard, boardGenerator);
     await userInterface.run();
     expect(logSpy).toHaveBeenNthCalledWith(1, "Frame 10:");
@@ -188,13 +188,11 @@ describe("userinterface", () => {
   it("given there has been nine frames, and the player gets an open frame", async () => {
     mockreadlineAysnc.mockResolvedValueOnce("5");
     mockreadlineAysnc.mockResolvedValueOnce("2");
-    const scorecard = new Scorecard()
     const frame1 = frame(10)
     frame1.isStrike.mockReturnValue(true)
     frame1.total.mockReturnValue(10)
     scorecard.frames = [frame1,frame1,frame1,frame1,frame1,frame1,frame1,frame1,frame1]
     scorecard.score = [30,60,90,120,150,180,210,230,240]
-    const boardGenerator = new BoardGenerator()
     const userInterface = new UserInterface(mockreadlineAysnc, scorecard, boardGenerator);
     await userInterface.run();
     expect(logSpy).toHaveBeenNthCalledWith(1, "Frame 10:");
@@ -235,8 +233,6 @@ describe("userinterface", () => {
     mockreadlineAysnc.mockResolvedValueOnce("3"); // frame 1. throw 2 valid
     mockreadlineAysnc.mockResolvedValueOnce("1");
     mockreadlineAysnc.mockResolvedValueOnce("4");
-    const scorecard = new Scorecard()
-    const boardGenerator = new BoardGenerator()
     const userInterface = new UserInterface(mockreadlineAysnc, scorecard, boardGenerator);
     await userInterface.run();
     expect(logSpy).toHaveBeenNthCalledWith(1, "Frame 1:");
